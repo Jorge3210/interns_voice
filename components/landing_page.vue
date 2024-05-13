@@ -1,6 +1,6 @@
 <template>
-      <div class="landing-page justify-center items-center q-ml-md q-mr-md">
-       <h3 class="text-primary q-mt-lg q-pl-md q-pr-md">{{ $t('landing_header') }} <br v-if="$q.platform.is.desktop"></h3>
+      <div class="bordered-frame q-ml-md q-mr-md q-pa-xl">
+       <h3 class="text-primary q-mt-lg q-pl-md q-pr-md">{{ $t('landing_header') }}</h3>
       <QInput v-model="search" rounded outlined v-slot:append :label="$t('landing_search_hint')" class="q-pl-md q-pr-md q-pb-lg">
       <QAvatar color="primary" size="lg">
         <QIcon name="arrow_forward" color="positive"/>
@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-
 const search= ref("")
 
 
@@ -19,7 +18,7 @@ const search= ref("")
 </script>
 
 <style>
-.landing-page{
+.bordered-frame{
   border: 2px solid var(--q-primary);
   border-radius: 15px;
   padding: 1%
