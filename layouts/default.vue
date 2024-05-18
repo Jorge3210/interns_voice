@@ -24,10 +24,9 @@
           <QBtn icon="account_circle" flat dense round size="xl" color="secondary"/>
           </NuxtLink>
 
-       </QToolbar></QHeader><QPageContainer>
-        <QPage class="column justify-center items-center bg-secondary">
+       </QToolbar></QHeader><QPageContainer class="justify-center items-center">
+        <QPage class="row items-center bg-secondary full-height justify-center">
         <slot/>
-       
     </QPage>
      
       </QPageContainer>
@@ -50,6 +49,8 @@ a:active{
   opacity: 1;
   transition: 0.3s;
 }
+
+
 
 
 </style>

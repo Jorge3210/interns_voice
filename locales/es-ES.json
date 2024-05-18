@@ -25,12 +25,12 @@
   "submit_form_company": "Empresa:",
   "submit_form_course": "Curso academico:",
   "submit_form_description": "Descripción:",
+  "submit_form_description_hint": "Aquí es donde puedes contarlo todo: lo bueno, lo malo y lo muy malo.",
   "submit_form_description_label": "Cuéntalo todo aquí",
   "submit_form_modality": "Modalidad:",
   "submit_form_modality_hybrid": "Híbrido",
   "submit_form_modality_on_site": "Presencial",
   "submit_form_modality_remote": "Remoto",
-  "submit_form_title": "Título de la reseña:",
-  "submit_form_title_label": "Título descriptivo",
+  "submit_form_title": "Título:",
   "submit_title": "Como te han tratado?"
 }

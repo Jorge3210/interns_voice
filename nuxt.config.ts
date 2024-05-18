@@ -24,6 +24,7 @@ export default defineNuxtConfig({
       file: 'en-US.json',
 
       
+      
 
     },
     {
