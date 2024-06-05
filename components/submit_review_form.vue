@@ -1,14 +1,14 @@
 <template>
-  <!--descripcion,empresa,cursoacademico(opcional)-->
-  <QForm @submit="onSubmit()" class="col">
-        <div class="row items-stretch">
-        <label for="title" class="text-primary text-h5 q-pl-md q-pr-md col">{{ $t('submit_form_title') }}</label>
+  <!--cursoacademico(opcional ver en peticion)-->
+  <QForm @submit="onSubmit()" class=" flex-center column q-pl-xl q-pr-xl q-pb-xl q-pt-md text-center justify-center">
+        <div class="row no-wrap items-center" >
+        <label for="title" class="text-primary text-h5 q-pl-md q-pr-md">{{ $t('submit_form_title') }}</label>
         <QInput 
         input-class="title-input"
         v-model="title"
         lazy-rules
         :rules="[ val => val && val.length > 0 || $t('empty_field_warn')]"
-        class="q-mb-lg q-mt-sm q-pl-md q-pr-xl q-mt-md col-12"
+        class="q-pl-md q-pr-xl"
         
         
         
@@ -17,21 +17,21 @@
   @click="rateItem($event)"
   v-model="rating"
   max="5"
-  size="2.4em"
+  size="lg"
   color="primary"
   icon="star_border"
   icon-selected="star"
   icon-half="star_half"
   no-dimming
-  class="col no-wrap"
+  class="no-wrap"
   :rules="[ rating!=0 || $t('empty_field_warn')]"
 />
       
       
     </div>
 
-        <div class="row">
-        <label for="description" class="col text-primary text-h5 q-pl-md q-pr-md  ">{{ $t('submit_form_description') }}</label>
+        <div class="column full-width q-mt-md">
+        <label class="col text-primary text-h5 q-pl-md q-pr-md text-left ">{{ $t('submit_form_description') }}</label>
         <QInput
         type="textarea"
         v-model="description"
@@ -39,42 +39,155 @@
         filled
         lazy-rules
         :rules="[ val => val && val.length > 0 || $t('empty_field_warn')]"
-        class="q-mb-lg q-mt-sm q-pl-md q-pr-xl col-xl-auto q-mt-md"
-       
-        
-        
-      />
+        class="q-pl-md q-pr-xl column"/>
+    
       
     </div>
     <div class="row">
-      <label for="modality" class="text-primary text-h5  q-pl-md q-pr-md">{{ $t('submit_form_modality') }}</label>
-      <QSelect  popup-content-class="options" filled v-model="modality" :options="modalityOptions" :rules="[ val => val && val!=-1 || $t('empty_field_warn')]"/>
+      <label  class="self-center text-primary text-h5  q-pl-md q-pr-md">{{ $t('company') }}</label>
+      <QSelect
+      filled
+      v-model="empresa"
+      use-input
+      hide-selected
+      table-colspan="2"
+      fill-input
+      input-debounce="250"
+      option-value="id"
+      option-label="nombre"
+      :options="empresasBuscadas"
+      @filter="searchCompanies"
+      popup-content-class="text-primary bg-secondary"
+      
+     
+
+      
+>
+<template v-slot:option="{ opt ,itemProps,selected,toggleOption }">
+  <QItem class="text-primary bg-secondary" v-bind="itemProps" :model-value="selected">
+        <QItemSection>
+          <QItemLabel>{{ opt.nombre }}</QItemLabel>
+        </QItemSection>
+        <QItemSection avatar>
+           <QAvatar >
+            <QImg :src="opt.logo"/>
+           </QAvatar>
+        </QItemSection>
+      </QItem>
+
+</template>
+
+  <template v-slot:no-option>
+    <QItem class="text-primary bg-secondary">
+      <QItemSection >
+        No results
+      </QItemSection>
+    </QItem>
+  </template>
+</QSelect>
+      <label  class="text-primary text-h5  q-pl-md q-pr-md self-center">{{ $t('modality') }}</label>
+      <QSelect  
+      popup-content-class="options text-primary bg-secondary"
+
+       filled v-model="modality" 
+       :options="getModalities()" 
+       :rules="[ val => val && val!=-1 || $t('empty_field_warn')]"/>
   </div>
-{{ rating }}
       <div class="flex flex-center q-pb-md">
-        <QBtn rounded  type="submit" class="text-primary text-h6 shadow-4" >{{$t('login_submit')}}</QBtn>
+        <QBtn rounded  type="submit" class="text-primary text-h6 shadow-4" >{{$t('new_review_submit')}}</QBtn>
         </div>
         
       </QForm>
 </template>
 
 <script lang="ts" setup>
+
 const {t}=useI18n();
-const modalityOptions=[t("submit_form_modality_on_site"),t("submit_form_modality_remote"),t("submit_form_modality_hybrid")]
+const $q=useQuasar();
 const modality=ref('')
 const title = ref('');
 const rating=ref(0.0);
-const votes=0;
 const description=ref('')
+const empresa=ref(null as any as Company);
+const empresasBuscadas=ref();
+
+
+function getModalities(){
+  return  [t("modality_on_site"),
+t("modality_remote"),
+t("modality_hybrid")]
+  
+}
+
 
 async function onSubmit() {
-  const modalityValue=modalityOptions.indexOf(modality.value)
+  const modalityValue=getModalities().indexOf(modality.value)
+
   const timestamp:Date=new Date()
   const formattedDate:string=timestamp.toISOString().substring(0, 10);
   const finalRating=rating.value==0?null:rating.value;
-  console.log(modalityValue);
+  if(finalRating!=null){
+  const new_review=await $fetch(await useDataSourceReviewAddress(),
+  {
+    lazy:true,
+    server:false,
+    method:"POST",
+    headers:{
+      "Authorization": localStorage.getItem("token")!
+    },
+    retry:false,
+    body:{
+    titulo: title.value,
+    modalidad: modalityValue,
+    descripcion: description.value,
+    empresaPracticas:{
+        id:empresa.value.id
+    },
+    fechaPublicacion:formattedDate,
+    estrellas: rating.value,
+    votos: 0
+}
+  
+  
+  }
+  
+)
+if(new_review){
+
+  useNotification(t('submit_form_success'),$q);
+  clearFields();
+  }
+  
+  }
+  else{
+    useWarning(t('submit_form_rating_missing'),$q)
+    
+  }
   
 
+
+}
+
+      const searchCompanies =(val:string, update:any)=> {
+        update(async() => {
+          const needle = val.toLowerCase().trim()
+          const companies=(await $fetch(await useDataSourceCompaniesAddress())) as Company[]
+          if(val.length>1){
+          empresasBuscadas.value =companies.filter(v =>v.nombre.toLowerCase().indexOf(needle) > -1)
+
+          }else{
+            empresasBuscadas.value=[]
+          }
+        })
+      }
+
+
+function clearFields(){
+  title.value=''
+  rating.value=0
+  description.value=''
+  empresa.value=null as any as Company
+  modality.value=''
 
 }
 
@@ -94,17 +207,39 @@ function rateItem(event: MouseEvent) {
 }
 
 
+
+
+
   
 
 </script>
-<style scoped >
 
-.title-input{
+<style scoped>
+
+@media screen and (min-width:1024px) {
+
+  :deep(.title-input){
 
   align-self: end;
-  width: 30vh;
+  width: calc(var(--q-size-sm) - 150px);
 
 }
+  
+}
+@media screen and (max-width:1024px){
+
+  :deep(.no-wrap){
+    flex-wrap: wrap;
+
+
+}
+*{  
+  text-align: center;
+  margin-bottom: 5%;
+  width: 100%;
+}
+}
+
 
 textarea.q-field__native.q-placeholder{
   resize: none;
@@ -117,7 +252,6 @@ textarea.q-field__native.q-placeholder{
   background-color: var(--q-secondary);
   color:var(--q-primary);
 }
-
 
 
 

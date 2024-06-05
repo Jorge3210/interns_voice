@@ -8,10 +8,24 @@ export default defineNuxtConfig({
     'nuxt-quasar-ui',
     "@nuxtjs/i18n",
     "nuxt-translation-manager",
-    "nuxt-scheduler"
+    "nuxt-scheduler",
+    "@nuxt/content"
   ],
   
-  
+
+  content:{
+    experimental:{
+      search:{
+
+        indexed:true
+
+      }
+
+    }
+  },  
+
+
+
   
   i18n: {
     langDir:"locales",
@@ -26,6 +40,7 @@ export default defineNuxtConfig({
       
       
 
+
     },
     {
       code:'es',
@@ -33,12 +48,29 @@ export default defineNuxtConfig({
       iso: 'es-ES',
       file: 'es-ES.json',
 
-
     }
    ]
   },
 
+  
+
+  /*hooks: {
+
+    "nitro:build:public-assets"() {
+      const fs = require('fs');
+      const path = require('path');
+      const outputDir = path.resolve(__dirname, '.output');
+      const customDir = path.join(outputDir, 'content');
+
+      if (!fs.existsSync(customDir)){
+        fs.mkdirSync(customDir);
+      }
+    }
+  },*/
+  
   devtools: { enabled: true },
+  
+  
   
   
   css: ['~/assets/main.css'],
@@ -54,6 +86,7 @@ export default defineNuxtConfig({
   
     config: {
 
+      
       
     
       brand: {
@@ -74,4 +107,3 @@ export default defineNuxtConfig({
 
  
 })
-

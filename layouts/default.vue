@@ -1,6 +1,6 @@
 
 <template>
-    <QLayout>
+    <QLayout class="full-height">
   
       <QHeader elevated view="hHh LpR fFf">
         <QToolbar class="q-pb-sm q-pt-sm">
@@ -10,13 +10,16 @@
             </QAvatar>
           </NuxtLink>
           
-          <QToolbarTitle v-ripple>
-            <NuxtLink to="/" v-if="$q.platform.is.desktop"  >
+          <QToolbarTitle>
+            <NuxtLink to="/" v-if ="$q.platform.is.desktop"  >
          Intern's Voice
         </NuxtLink>   
           </QToolbarTitle>
 
 
+          <NuxtLink to="/job-search" >
+          <QBtn icon="work" flat dense round size="lg" color="secondary"/>
+          </NuxtLink>
          <LanguageSelector/>
 
 
@@ -25,7 +28,7 @@
           </NuxtLink>
 
        </QToolbar></QHeader><QPageContainer class="justify-center items-center">
-        <QPage class="row items-center bg-secondary full-height justify-center">
+        <QPage class="flex items-center bg-secondary justify-center">
         <slot/>
     </QPage>
      

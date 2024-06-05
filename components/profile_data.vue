@@ -1,5 +1,5 @@
 <template>
-   <QList separator class="items-stretch q-ml-md">
+   <QList separator class="items-stretch">
     <ProfileDataItem overline-value="profile_mail" :value="mail" :editable="false"/>
     <ProfileDataItem overline-value="profile_surnames" :value="surnames" editable/>
     <ProfileDataItem overline-value="profile_number" :value="phoneNumber" editable/>

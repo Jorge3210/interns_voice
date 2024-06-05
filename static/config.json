@@ -3,6 +3,14 @@
     "backendTokenCheckAddress":"/token/comprobarToken",
     "backendReviewsAddress":"/resenyas",
     "backendUserLoginAddress":"/usuario/login",
-    "backendUserInfoAddress":"/usuario/"
+    "backendUserInfoAddress":"/usuario/",
+    "backendCoursesAddress":"/cursos",
+    "backendCompaniesAddress":"/empresas",
+    "backendReviewAdress":"/resenya",
+    "backendCompanyAddress":"/empresa/",
+    "backendReviewByCompanyAddress":"/resenyasEmpresa/",
+    "backendVotesByReviewAndUserAddress":"/votosResenya/",
+    "backendVoteActionAddress":"/votarResenya",
+    "backendReviewWithFiltersAdress":"/resenyaConFiltros"
 
 }

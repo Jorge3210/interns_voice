@@ -1,22 +1,25 @@
 <template>
-   <div class="bordered-frame q-ml-md q-mr-md">
-      <div class="row items-center q-mt-lg q-pa-xl">
-        <div class="column flex flex-center flex-wrap q-mr-lg">
+   <div class="bordered-frame  ">
+      <div :class="($q.screen.width>1024)?'items-center q-pa-xl row':'items-center q-pa-xl'">
+        <div class="column flex flex-center flex-wrap">
       <QAvatar class="items-center" color="primary" size="22vh">
         <QImg :src="image"   icon="arrow_forward" color="positive"/>
       </QAvatar>
-      <h4 class="text-primary q-mt-lg q-pl-md q-pr-md">{{$t('profile_greeting')}} {{name}}!</h4>
+      <h4 class="text-primary q-pl-md q-pr-md">{{$t('profile_greeting')}} {{name}}!</h4>
       </div>
-      <QSeparator color="primary" vertical class="q-mr-xl q-ml-lg" />
+      <QSeparator v-if="$q.screen.width>1024" spaced="xl" color="primary" vertical />
       <div class="column flex">
       <ProfileData v-if="isMounted" :mail="mail" :surnames="surnames" :phoneNumber="phoneNumber" :country-id="countryId"/>
-      <QBtn rounded class="text-primary align-center q-mt-lg q-pr-md q-pl-md" @click="signOut()">{{ $t('login_log_out') }}</QBtn>
+      <QBtn rounded class="text-primary align-center q-pr-md q-pl-md" @click="signOut()">{{ $t('login_log_out') }}</QBtn>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+
+
+
 const isMounted=ref(false);
 const name=ref('');
 const image=ref('');
@@ -58,4 +61,6 @@ function signOut(){
 
 
 </script>
+
+
 
