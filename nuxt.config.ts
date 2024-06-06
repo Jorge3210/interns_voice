@@ -13,6 +13,8 @@ export default defineNuxtConfig({
   ],
   
 
+
+
   content:{
     experimental:{
       search:{
@@ -68,7 +70,7 @@ export default defineNuxtConfig({
     }
   },*/
   
-  devtools: { enabled: true },
+ /* devtools: { enabled: true },*/
   
   
   

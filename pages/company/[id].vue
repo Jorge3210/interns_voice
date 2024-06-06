@@ -20,6 +20,7 @@ const companyReviewsDataRequest=await $fetch(await useDataSourceReviewByCompanyA
 }});
 companyReviews.value=companyReviewsDataRequest as Review[];
 companyReviews.value.forEach(async(review: Review)  => {
+review.showDialog = false;
 const vote= await $fetch(
   await useDataSourceVotesByReviewAndUserAddress(review.id.toString())
   ,{headers:{
@@ -32,7 +33,6 @@ const vote= await $fetch(
   }) as VoteResponse
   review.votos=vote.totalVotes
   review.userVoted=vote.voteType
-  
 
 });
 

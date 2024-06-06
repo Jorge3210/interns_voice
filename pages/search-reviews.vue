@@ -68,7 +68,8 @@ async function modifyFilter(filters?: FilterTransferObject) {
 
   } else {
     if (useRoute().query.company && firstLoad.value) {
-      await getReviewsWithFilters({ company: useRoute().query.company } as FilterTransferObject);
+      console.log(useRoute().query.company)
+      await getReviewsWithFilters({ company: {nombre:useRoute().query.company} } as FilterTransferObject);
       firstLoad.value = false;
 
     } else {
@@ -119,6 +120,7 @@ async function getReviewsBasicFilters() {
   }) as Review[]
 
   reviews.forEach(async (review: Review) => {
+    review.showDialog = false;
     const vote = await $fetch(
       await useDataSourceVotesByReviewAndUserAddress(review.id.toString())
       , {
@@ -139,7 +141,6 @@ async function getReviewsBasicFilters() {
 }
 
 async function getReviewsWithFilters(filters?: FilterTransferObject) {
-  console.log(filters?.dateRange);
   const reviews: Review[] = await $fetch(await useDataSourceBackendReviewWithFiltersAdress(), {
     method: "POST",
     headers: {
@@ -158,6 +159,7 @@ async function getReviewsWithFilters(filters?: FilterTransferObject) {
   }) as Review[]
 
   reviews.forEach(async (review: Review) => {
+    review.showDialog =false;
     const vote = await $fetch(
       await useDataSourceVotesByReviewAndUserAddress(review.id.toString())
       , {

@@ -2,19 +2,19 @@
   <!--cursoacademico(opcional ver en peticion)-->
   <QForm @submit="onSubmit()" class=" flex-center column q-pl-xl q-pr-xl q-pb-xl q-pt-md text-center justify-center">
         <div class="row no-wrap items-center" >
-        <label for="title" class="text-primary text-h5 q-pl-md q-pr-md">{{ $t('submit_form_title') }}</label>
+        <div for="title" class="text-primary text-h5 q-pl-md q-pr-md">{{ $t('submit_form_title') }}</div>
         <QInput 
+
         input-class="title-input"
         v-model="title"
         lazy-rules
-        :rules="[ val => val && val.length > 0 || $t('empty_field_warn')]"
-        class="q-pl-md q-pr-xl"
+        :rules="[ val => val && val.length > 0  || $t('empty_field_warn'),val => val && val.length <=29  || $t('character_limit_warn')]"
+        class="q-pl-md q-pr-md self-center"
         
         
         
       />
       <QRating
-  @click="rateItem($event)"
   v-model="rating"
   max="5"
   size="lg"
@@ -23,7 +23,7 @@
   icon-selected="star"
   icon-half="star_half"
   no-dimming
-  class="no-wrap"
+  class="no-wrap justify-center"
   :rules="[ rating!=0 || $t('empty_field_warn')]"
 />
       
@@ -31,7 +31,7 @@
     </div>
 
         <div class="column full-width q-mt-md">
-        <label class="col text-primary text-h5 q-pl-md q-pr-md text-left ">{{ $t('submit_form_description') }}</label>
+        <label class="col text-primary text-h5 q-pl-md q-pr-md text-left q-mb-sm ">{{ $t('submit_form_description') }}</label>
         <QInput
         type="textarea"
         v-model="description"
@@ -39,7 +39,7 @@
         filled
         lazy-rules
         :rules="[ val => val && val.length > 0 || $t('empty_field_warn')]"
-        class="q-pl-md q-pr-xl column"/>
+        class="q-pl-md q-pr-md column"/>
     
       
     </div>
@@ -63,12 +63,15 @@
 
       
 >
+<template v-if="empresa" v-slot:append>
+          <q-icon name="cancel" @click.stop.prevent="empresa = null as any as Company" class="cursor-pointer" />
+        </template>
 <template v-slot:option="{ opt ,itemProps,selected,toggleOption }">
   <QItem class="text-primary bg-secondary" v-bind="itemProps" :model-value="selected">
         <QItemSection>
           <QItemLabel>{{ opt.nombre }}</QItemLabel>
         </QItemSection>
-        <QItemSection avatar>
+        <QItemSection side  >
            <QAvatar >
             <QImg :src="opt.logo"/>
            </QAvatar>
@@ -191,20 +194,7 @@ function clearFields(){
 
 }
 
-function rateItem(event: MouseEvent) {
-  const starsContainer = event.currentTarget as HTMLElement;
-  const rect = starsContainer.getBoundingClientRect();
-  const xCoordInClickTarget = event.clientX - rect.left;
-  const starsWidth = rect.width;
-  const starWidth = starsWidth / 5; 
-  const ratingValue = (xCoordInClickTarget / starWidth); 
 
-  if (ratingValue % 1 < 0.5) {
-    rating.value = Math.floor(ratingValue) + 0.5; 
-  } else {
-    rating.value = Math.round(ratingValue);
-  }
-}
 
 
 
@@ -233,11 +223,15 @@ function rateItem(event: MouseEvent) {
 
 
 }
-*{  
+*:not(.q-avatar){  
   text-align: center;
   margin-bottom: 5%;
   width: 100%;
 }
+
+
+
+
 }
 
 

@@ -2,7 +2,7 @@
    <div id="job-search-page" class="bordered-frame justify-center items-center">
        <h3 class="text-primary q-pl-xl q-pr-xl text-center">{{ $t('job_search_title') }} </h3>
      
-      <QInput v-model="jobName" rounded outlined v-slot:append :label="$t('landing_search_hint')" class="q-pl-md q-pr-md q-pb-lg" @keydown.enter="searchCompany()">
+      <QInput v-model="jobName" rounded outlined v-slot:append :label="$t('job_search_input')" class="q-pl-md q-pr-md q-pb-lg" @keydown.enter="searchCompany()">
         <QAvatar color="primary" size="lg" @click="searchCompany()">
         <QIcon name="arrow_forward" color="positive"/>
       </QAvatar></QInput>

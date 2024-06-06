@@ -4,7 +4,7 @@
 export default defineNuxtRouteMiddleware(async(to) => {
 if(import.meta.client){
 
-if(to.path!="/"){
+if(to.path!="/"&&to.path!='/job-search'){
    const apiAddress=await useDataSourceTokenCheckAddress();
    const storage=localStorage;
    const token=storage.getItem("token");

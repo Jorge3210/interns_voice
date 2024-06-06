@@ -42,8 +42,9 @@ interface UserProfile {
     id:number,
     nombre:string,
     direccionWeb:string,
-    logo:string
-    valoracion:number;
+    logo:string,
+    valoracion:number,
+
   }
 
   interface Review{
@@ -62,6 +63,7 @@ interface UserProfile {
     estrellas: number,
     votos:number,
     userVoted:string,
+    showDialog: boolean|undefined
   }
 
   interface VoteResponse{

@@ -3,8 +3,7 @@
     <QList separator padding bordered>
       <QItem v-for="review in reviewData">
         <QItemSection>
-      
-          <QItemLabel class="text-primary">{{ review.titulo }}</QItemLabel>
+          <QItemLabel class="text-primary"  @click="review.showDialog=true">{{ review.titulo }}</QItemLabel>
               <QRating max="5" size="sm" color="primary" icon="star_border" icon-selected="star" icon-half="star_half"
             no-dimming class="no-wrap" readonly v-model="review.estrellas" />
           <QItemLabel caption lines="3">{{ review.descripcion }}</QItemLabel>
@@ -25,7 +24,7 @@
             @click="vote(review, false)" />
 
         </QItemSection>
-
+      <ReviewDetails :title="review.titulo" :description="review.descripcion" :companyLogo="review.empresaPracticas.logo" :rating="review.estrellas" :companyName="review.empresaPracticas.nombre" :show="review.showDialog!" @closeDialog="review.showDialog! = false"/>
       </QItem>
       <QItem v-if="!reviewData||reviewData.length==0 ">
         <QItemSection>
@@ -40,12 +39,15 @@
 </template>
 
 <script lang="ts" setup>
-defineProps<{
+
+
+const props=defineProps<{
   reviewData: Review[],
   showCompany: boolean
 
 }>();
 const { t } = useI18n();
+
 
 
 function getModalityText(modality: string) {
@@ -113,3 +115,36 @@ async function vote(review: Review, upwards: boolean) {
   }
 }
 </style>
+
+<!--<template>
+  <QScrollArea>
+    <QList separator padding bordered>
+      <ReviewItem v-for="review in reviewData" :review="review" :show-company="showCompany"/>
+        <QItem v-if="!reviewData||reviewData.length==0 ">
+    <QItemSection>
+  
+      <div class="q-pa-xl text-primary text-h5">{{ $t('no_reviews') }}</div>
+
+    </QItemSection>
+    </QItem>
+
+
+    </QList>
+  </QScrollArea>
+</template>
+
+<script lang="ts" setup>
+
+
+
+
+
+
+defineProps<{
+  reviewData: Review[],
+  showCompany: boolean,
+  
+
+}>();
+const { t } = useI18n();
+-->
