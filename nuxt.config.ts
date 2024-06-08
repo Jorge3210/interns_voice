@@ -56,21 +56,6 @@ export default defineNuxtConfig({
 
   
 
-  /*hooks: {
-
-    "nitro:build:public-assets"() {
-      const fs = require('fs');
-      const path = require('path');
-      const outputDir = path.resolve(__dirname, '.output');
-      const customDir = path.join(outputDir, 'content');
-
-      if (!fs.existsSync(customDir)){
-        fs.mkdirSync(customDir);
-      }
-    }
-  },*/
-  
- /* devtools: { enabled: true },*/
   
   
   
@@ -88,8 +73,6 @@ export default defineNuxtConfig({
   
     config: {
 
-      
-      
     
       brand: {
         primary: '#118AB2',
@@ -106,6 +89,7 @@ export default defineNuxtConfig({
   },
 
 
+  
 
  
 })
